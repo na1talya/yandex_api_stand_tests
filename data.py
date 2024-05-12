@@ -1,8 +1,13 @@
 headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Authorization": "Bearer {authToken}"
 }
 user_body = {
-    "firstName": "Аа",  # Имя пользователя
-    "phone": "+74441237887",  # Контактный телефон пользователя
-    "address": "г. Москва, ул. Хохотушкина, д. 16"  # Адрес пользователя
+    "firstName": "Наталья",  # Имя пользователя
+    "phone": "+79180000000",  # Контактный телефон пользователя
+    "address": "г. Москва, ул. Пушкина, д. 10"  # Адрес пользователя
+}
+
+kit_body = {
+"name": "а"
 }
