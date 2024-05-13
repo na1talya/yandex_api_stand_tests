@@ -10,22 +10,23 @@ def get_kit_body(name):
 # Создание функции для позитивных проверок
 def positive_assert(name):
 	kit_body = get_kit_body(name)
-	kit_response = sender_stand_request.post_new_client_kit(kit_body, sender_stand_request.get_token)
-	assert kit_response.json()["name"] == name
-	print(f"\nnameNewKit: {name}")
+	kit_response = sender_stand_request.post_new_client_kit(kit_body, sender_stand_request.get_token())
+	assert kit_response.json()["name"] == kit_body["name"]
 	assert kit_response.status_code == 201
-	print(f"newKitStatusCode: {kit_response.status_code}")
 
 # Создание функции для негативных проверок
 def negative_assert_code_400(name):
 	kit_body = get_kit_body(name)
-	kit_response = sender_stand_request.post_new_client_kit(kit_body, sender_stand_request.get_token)
+	kit_response = sender_stand_request.post_new_client_kit(kit_body, sender_stand_request.get_token())
 	assert kit_response.status_code == 400
 
 # Функция для негативной проверки, когда тело запроса пустое
 def negative_assert_code_400_no_name(kit_body):
-    kit_no_name = sender_stand_request.post_new_client_kit(kit_body)
+    kit_no_name = sender_stand_request.post_new_client_kit(kit_body, sender_stand_request.get_token())
     assert kit_no_name.status_code == 400
+
+
+
 
 #Тест 1.Допустимое количество символов (1):
 def test_create_kit_1_symbol_in_name_get_success_response():
@@ -33,7 +34,7 @@ def test_create_kit_1_symbol_in_name_get_success_response():
 
 #Тест 2. Допустимое количество символов (511)
 def test_create_kit_511_symbols_in_name_get_success_response():
-	positive_assert(511)
+	positive_assert("AbcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdAbcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabC")
 
 # Тест 3. Количество символов меньше допустимого (0)
 def test_create_kit_0_symbol_in_name_get_error_response():
@@ -41,7 +42,7 @@ def test_create_kit_0_symbol_in_name_get_error_response():
 
 # Тест 4. Количество символов больше допустимого (512)
 def test_create_kit_512_symbols_in_name_get_success_response():
-    negative_assert_code_400(512)
+    negative_assert_code_400("AbcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdAbcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcD")
 
 # Тест 5. Разрешены английские буквы
 def test_create_kit_eng_in_name_get_success_response():
@@ -67,7 +68,7 @@ def test_create_kit_numbers_in_name_get_success_response():
 def test_create_kit_no_name_get_error_response():
 	current_kit_body = data.kit_body.copy()
 	current_kit_body.pop("name")
-	negative_assert_code_400(current_kit_body)
+	negative_assert_code_400_no_name(current_kit_body)
 
 # Тест 11. Передан другой тип параметра
 def test_create_kit_numeric_type_name_get_error_response():

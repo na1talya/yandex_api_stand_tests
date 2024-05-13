@@ -1,6 +1,5 @@
 headers = {
     "Content-Type": "application/json",
-    "Authorization": "Bearer {authToken}"
 }
 user_body = {
     "firstName": "Наталья",  # Имя пользователя
